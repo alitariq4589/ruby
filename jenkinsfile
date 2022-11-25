@@ -18,11 +18,11 @@ node("riscv64_runner1") {
     stage ('Build Directory'){
         sh'''
             mkdir -p 10xconfig/$(git rev-list --max-count=1 HEAD) #Creating a directory with commit number on which HEAD is present
-            cd 10xconfig/$(git rev-list --max-count=1 HEAD)
         '''
     }
     stage('configure'){
         sh'''
+            cd 10xconfig/$(git rev-list --max-count=1 HEAD)
             ../../configure --prefix=/home/ubuntu/softwares --disable-shared # Installing without shared libraries
         '''
     }
