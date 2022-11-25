@@ -1,0 +1,31 @@
+node("riscv64_runner1") {
+    stage('Checkout Repo') {
+        checkout scm
+    }
+    stage('Installation Directory Setup') {
+        sh'''#!/bin/bash
+            mkdir -p ~/softwares/ruby
+        '''
+    }
+    stage('autogen'){
+        sh'''
+            ./autogen.sh
+        '''
+    }
+    stage ('Build Directory'){
+        sh'''
+            mkdir -p 10xconfig/$(git rev-list --max-count=1 HEAD) #Creating a directory with commit number on which HEAD is present
+            cd 10xconfig/$(git rev-list --max-count=1 HEAD)
+        '''
+    }
+    stage('configure'){
+        sh'''
+            ../../configure --prefix=/home/ubuntu/softwares --disable-shared # Installing without shared libraries
+        '''
+    }
+    stage('make'){
+        sh'''
+            make install
+        '''
+    }
+}
