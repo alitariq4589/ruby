@@ -1,4 +1,7 @@
 node("riscv64_runner1") {
+    stage ('*** Cleanup ***'){
+        cleanWs()
+    }
     stage('Checkout Repo') {
         checkout scm
     }
